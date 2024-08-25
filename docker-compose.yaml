@@ -10,6 +10,7 @@ services:
     container_name: api_container
     build:
       dockerfile: Dockerfile-Api
+    image: api-image
     ports:
       - 8080:8000
     depends_on:
@@ -22,6 +23,7 @@ services:
     hostname: sql_hostname
     build:
       dockerfile: Dockerfile-Db
+    image: personsdb-image
     ports:
       - 1433:1433
     environment:
