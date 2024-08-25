@@ -29,3 +29,33 @@ services:
     environment:
       - ACCEPT_EULY=y
       - MSSQL_SA_PASSWORD=L0ckandK#y
+
+
+####  Reference  ###############################################################
+###           API_PROJECT
+###   Run this docker-compose.yaml like this
+###     $ docker compose -f docker-compose-Api.yaml up
+
+# name: API-Project
+# services:
+#   api-container:
+#     build:
+#       dockerfile: Dockerfile-Api
+#     image: api-image
+#     ports:
+#       - 8080:8000
+
+####  Reference  ###############################################################
+
+###           Db_PROJECT
+###   Run this docker-compose.yaml like this
+###     $ docker compose -f docker-compose-Db.yaml up
+
+# name: PersonsDb-Project
+# services:
+#   personsdb-container:
+#     build:
+#       dockerfile: Dockerfile-Db
+#     image: personsdb-image
+#     ports:
+#       - 1433:1433
