@@ -1,0 +1,29 @@
+###   This docker-compose file will generate 2x container:
+###     api-container and persondb-container.
+###   Run this docker-compose.yaml like this
+#
+###     $ docker compose -f docker-compose.yaml up
+
+name: EF_API-Project
+services:
+  api:
+    container_name: api_container
+    build:
+      dockerfile: Dockerfile-Api_Test_04
+    ports:
+      - 8080:8000
+    depends_on:
+      - db
+    environment:
+      - ACCEPT_EULY=Y
+      - MSSQL_SA_PASSWORD=L0ckandK#y
+  db:
+    container_name: persondb_container
+    hostname: sql_hostname
+    build:
+      dockerfile: Dockerfile-Db_Test_04
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULY=y
+      - MSSQL_SA_PASSWORD=L0ckandK#y

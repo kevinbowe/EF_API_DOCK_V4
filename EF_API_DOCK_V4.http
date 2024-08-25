@@ -1,0 +1,19 @@
+@EF_API_DOCK_V4_HostAddress = http://localhost:8080
+# @EF_API_DOCK_V4_HostAddress = http://localhost:5082
+
+###  WORKS
+GET {{EF_API_DOCK_V4_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###  WORKS -- FAILS - Code disabled in
+http://localhost:8080/WeatherForecast
+
+###	WORKS Locally -- FAILS Container - HTTP 500 Internal Server Error
+http://localhost:8080/GetPersons
+
+
+###
+http://localhost:8000/GetPersons
+
+
+

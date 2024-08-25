@@ -1,0 +1,43 @@
+# syntax=docker/dockerfile:1
+
+###	Build the Image 
+###		Dockerfile == Dockerfile-MySql
+###		Output Image Name == my-custom-mysql
+#
+###	$		docker image build --file Dockerfile-MySql -t my-custom-mysql .
+
+#-------------------------------------------------------------------------------
+###	Create Container
+###		Output Container Name == my-mysql
+###		Input Image == my-custom-mysql
+###	$		docker container run --name my-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d my-custom-mysql
+
+###	VERIFY
+###	$		docker exec my-mysql mysql -u root -pmy-secret-pw -e "SELECT * FROM mydb.myothertable;" 
+
+#-------------------------------------------------------------------------------
+###	This file creates the database and a record
+###		./mySqlscripts/create_table.sql
+###	The file is copied from the ROOT/mySqlscripts folder, 
+###	to the /docker-entrypoint-initdb.d/ folder
+
+# 			CREATE TABLE IF NOT EXISTS mydb.myothertable ( column_name VARCHAR(255) );
+# 			INSERT INTO mydb.myothertable (column_name) VALUES ('other_value');
+
+#-------------------------------------------------------------------------------
+###	The database can be checked like this.
+###	$		docker exec my-mysql mysql -u root -pmy-secret-pw -e "SELECT * FROM mydb.myothertable;"
+#
+###	This may fail on the first try: 
+###		'Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock''
+###	The second try seems to work
+
+###-----------------------------------------------------------------------------
+# Use the base image mysql:latest
+FROM mysql:latest
+
+# Set environment variables
+ENV MYSQL_DATABASE mydb
+
+# Copy custom scripts or configuration files from your host to the container
+COPY ./mySqlscripts/ /docker-entrypoint-initdb.d/

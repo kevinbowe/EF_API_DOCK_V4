@@ -1,0 +1,21 @@
+#
+@host = http://localhost:8080
+# @host = http://localhost:8080/WeatherForecast
+
+
+###
+{{host}}/WeatherForecast
+
+###
+http://localhost:8080/WeatherForecast
+
+###
+http://localhost:8080/GetPersons/
+
+###
+http://localhost:8080/GetPersonByID/1
+
+
+###		WORKS
+{{host}}/GetPersonByID/1
+

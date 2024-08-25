@@ -1,0 +1,12 @@
+###   Run this docker-compose.yaml like this
+###     $ docker compose -f docker-compose-Db_04.yaml up
+
+
+name: PersonsDb-Project
+services:
+  personsdb-container:
+    build:
+      dockerfile: Dockerfile-Db_Test_04
+    image: personsdb-image
+    ports:
+      - 1433:1433
