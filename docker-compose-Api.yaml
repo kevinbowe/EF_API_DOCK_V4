@@ -1,11 +1,11 @@
 ###   Run this docker-compose.yaml like this
-###     $ docker compose -f docker-compose-Api_04.yaml up
+###     $ docker compose -f docker-compose-Api.yaml up
 
 name: API-Project
 services:
   api-container:
     build:
-      dockerfile: Dockerfile-Api_Test_04
+      dockerfile: Dockerfile-Api
     image: api-image
     ports:
       - 8080:8000

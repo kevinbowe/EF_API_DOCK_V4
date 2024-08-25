@@ -1,14 +1,14 @@
-## This builds the Image [ api-test-04:latest ] described in [ THIS ] file
+## This builds the Image [ api:latest ] described in [ THIS ] file
 ##
 ##   DO NOT USE EXAMPLE ONLY
-##		docker image build --pull --file '/Users/kevinbowe/Projects/Analysis/dotnet_EF_DOCK/EF_API_DOCK_V4/Dockerfile' --tag 'test-04:latest' --label 'com.microsoft.created-by=visual-studio-code' --platform 'linux/amd64' '/Users/kevinbowe/Projects/Analysis/dotnet_EF_DOCK/EF_API_DOCK_V4'
+##		docker image build --pull --file '/Users/kevinbowe/Projects/Analysis/dotnet_EF_DOCK/EF_API_DOCK_V4/Dockerfile' --tag 'test:latest' --label 'com.microsoft.created-by=visual-studio-code' --platform 'linux/amd64' '/Users/kevinbowe/Projects/Analysis/dotnet_EF_DOCK/EF_API_DOCK_V4'
 ##------------------------------------------------------------------------------
-##	This generates a Image file [ api-test-04:latest ]
+##	This generates a Image file [ api:latest ]
 ## Simplified w/ named Containerfile
-##   docker image build --pull --file Dockerfile-Api_Test_04 --tag api-test-04:latest . 
+##   docker image build --pull --file Dockerfile-Api --tag api:latest . 
 
-## This creates a Container [ Api-Test-04-container ] that references the image generated above.
-#   docker container run --rm -d -p 8080:8000/tcp --name Api-Test-04-container api-test-04:latest
+## This creates a Container [ Api-container ] that references the image generated above.
+#   docker container run --rm -d -p 8080:8000/tcp --name Api-container api:latest
 
 ##------------------------------------------------------------------------------
 ## This tests the API

@@ -4,12 +4,12 @@
 #
 ###     $ docker compose -f docker-compose.yaml up
 
-name: EF_API-Project
+name: db_api_project_container
 services:
   api:
     container_name: api_container
     build:
-      dockerfile: Dockerfile-Api_Test_04
+      dockerfile: Dockerfile-Api
     ports:
       - 8080:8000
     depends_on:
@@ -21,7 +21,7 @@ services:
     container_name: persondb_container
     hostname: sql_hostname
     build:
-      dockerfile: Dockerfile-Db_Test_04
+      dockerfile: Dockerfile-Db
     ports:
       - 1433:1433
     environment:

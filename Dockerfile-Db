@@ -5,7 +5,7 @@
 ##			persondb-container-1
 ##	This Dockerfile is referenced in the YAML file
 ##			Docker-Db_Test04
-##    docker compose -f docker-compose-Db_04.yaml up
+##    docker compose -f docker-compose-Db.yaml up
 
 ###	NOTE
 ###		Trying to build the Image with "$ docker image build" fails to execute 
@@ -18,17 +18,17 @@
 
 
 ##			EXPERIMENT -- WORKS
-##	This builds the db-test-04-image described below.
+##	This builds the db-image described below.
 ##	The Image includes TWO databases: Persons and product-db.
 ##	This does NOT create a Multi-Container project like [ docker container ] would.
-##		Image == db-test-04-image
-## 	Container == db-test-04-container
+##		Image == db-image
+## 	Container == db-container
 
 ###	Build the image from CL
-#	$		docker image build --pull --file Dockerfile-Db_Test_04 --tag db-test-04-image .     
+#	$		docker image build --pull --file Dockerfile-Db --tag db-image .     
 
 ###	Build the comtainer from the image.
-#	$		docker container run -e 'ACCEPT=Y' -e 'MSSQL_SA_PASSWORD=L0ckandK#y' -p 1433:1433 --name db-test-04-container -d db-test-04-image
+#	$		docker container run -e 'ACCEPT=Y' -e 'MSSQL_SA_PASSWORD=L0ckandK#y' -p 1433:1433 --name db-container -d db-image
 
 
 
