@@ -63,4 +63,5 @@ COPY --from=publish /app/publish .
 #		can run as an executable.
 # ENTRYPOINT ["dotnet", "EF_API_DOCK_V4.dll"]
 
+###		SHELL FORM
 CMD dotnet EF_API_DOCK_V4.dll
