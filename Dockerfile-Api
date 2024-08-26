@@ -49,7 +49,8 @@ RUN dotnet build EF_API_DOCK_V4.csproj -c Release -o /app/build
 ### PUBLISH STAGE ##############################################################
 ###
 FROM build AS publish
-RUN dotnet publish EF_API_DOCK_V4.csproj -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish EF_API_DOCK_V4.csproj -c Release -o /app/publish -p:UseAppHost=false
+# RUN dotnet publish EF_API_DOCK_V4.csproj -c Release -o /app/publish /p:UseAppHost=false
 
 ### FINAL STAGE ################################################################
 ###
@@ -63,4 +64,5 @@ COPY --from=publish /app/publish .
 #		can run as an executable.
 # ENTRYPOINT ["dotnet", "EF_API_DOCK_V4.dll"]
 
+###		SHELL FORM
 CMD dotnet EF_API_DOCK_V4.dll
