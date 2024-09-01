@@ -1,0 +1,62 @@
+## This builds the Image [ personsdb-image ] described in [ THIS ] file.
+##
+##	The Image includes TWO databases: Persons and product-db.
+##	The image is generated as part of a multi-container.
+##			persondb-container-1
+##	This Dockerfile is referenced in the YAML file
+##			Docker-Db_Test04
+##    docker compose -f docker-compose-Db.yaml up
+
+###	NOTE
+###		Trying to build the Image with "$ docker image build" fails to execute 
+###		CMD ["./PersonDb/entrypoint.sh"]
+#
+###		The IMAGE is generated w/ no database tables or records.
+###		A container is generated w/ no database tables or records.
+
+
+
+
+##			EXPERIMENT -- WORKS
+##	This builds the db-image described below.
+##	The Image includes TWO databases: Persons and product-db.
+##	This does NOT create a Multi-Container project like [ docker container ] would.
+##		Image == db-image
+## 	Container == db-container
+
+###	Build the image from CL
+#	$		docker image build --pull --file Dockerfile-Db --tag db-image .     
+
+###	Build the comtainer from the image.
+#	$		docker container run -e 'ACCEPT=Y' -e 'MSSQL_SA_PASSWORD=L0ckandK#y' -p 1433:1433 --name db-container -d db-image
+
+
+
+
+#-------------------------------------------------------------------------------
+FROM mcr.microsoft.com/mssql/server:2022-latest
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Copy initialization scripts
+COPY . /usr/src/app
+
+# Set environment variables, not have to write them with the docker run command
+# Note: make sure that your password matches what is in the run-initialization script 
+ENV SA_PASSWORD=L0ckandK#y
+ENV ACCEPT_EULA=Y
+ENV MSSQL_PID=Developer
+
+# Expose port 1433 in case accessing from other container
+EXPOSE 1433
+
+# Run Microsoft SQL Server and initialization script (at the same time)
+#		The main purpose of a CMD is to provide defaults for an 
+#		executing container.
+# This works for Compose YAML { not verified }
+# This works with Image Build & Container Build
+###		Exec Form
+CMD ["./PersonDb/entrypoint.sh"]
+
+

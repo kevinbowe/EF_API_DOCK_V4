@@ -1,0 +1,68 @@
+## This builds the Image [ api:latest ] described in [ THIS ] file
+##
+##   DO NOT USE EXAMPLE ONLY
+##		docker image build --pull --file '/Users/kevinbowe/Projects/Analysis/dotnet_EF_DOCK/EF_API_DOCK_V4/Dockerfile' --tag 'test:latest' --label 'com.microsoft.created-by=visual-studio-code' --platform 'linux/amd64' '/Users/kevinbowe/Projects/Analysis/dotnet_EF_DOCK/EF_API_DOCK_V4'
+##------------------------------------------------------------------------------
+##	This generates a Image file [ api:latest ]
+## Simplified w/ named Containerfile
+##   docker image build --pull --file Dockerfile-Api --tag api:latest . 
+
+## This creates a Container [ Api-container ] that references the image generated above.
+#   docker container run --rm -d -p 8080:8000/tcp --name Api-container api:latest
+
+##------------------------------------------------------------------------------
+## This tests the API
+# 		This url WORKS -- http://localhost:8080/WeatherForecast
+# 		This Url FAILS -- http://localhost:8080
+
+### BASE STAGE #################################################################
+###
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+# This must be the [host|public] port
+EXPOSE 8080
+
+# This must be the internal Docker port
+ENV ASPNETCORE_URLS=http://*:8000
+
+USER app
+
+### BUILD STAGE ################################################################
+###
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+# This is refering to the Container file system.
+WORKDIR /src
+
+###	Copy the csproj file fron the local filesystem to the /src folder in the Container filesystem
+COPY EF_API_DOCK_V4.csproj ./
+
+RUN dotnet restore EF_API_DOCK_V4.csproj
+
+### 	Copy everything in the root folder of the Host filesystem to the Containers Filesystem.
+###	The current Container directory is set by the WORKDIR command above -- /src
+COPY . .
+
+WORKDIR "/src/."
+RUN dotnet build EF_API_DOCK_V4.csproj -c Release -o /app/build
+
+### PUBLISH STAGE ##############################################################
+###
+FROM build AS publish
+RUN dotnet publish EF_API_DOCK_V4.csproj -c Release -o /app/publish -p:UseAppHost=false
+# RUN dotnet publish EF_API_DOCK_V4.csproj -c Release -o /app/publish /p:UseAppHost=false
+
+### FINAL STAGE ################################################################
+###
+FROM base AS final
+WORKDIR /app
+###	Copy the /app/publis folder, defined in the PUBLISH STAGE to the current Container filesystem folder /app
+###	/app is set with the WORKDIR command above
+COPY --from=publish /app/publish .
+
+#		An ENTRYPOINT helps you to configure a container that you 
+#		can run as an executable.
+# ENTRYPOINT ["dotnet", "EF_API_DOCK_V4.dll"]
+
+###		SHELL FORM
+CMD dotnet EF_API_DOCK_V4.dll
